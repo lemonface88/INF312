@@ -1,0 +1,45 @@
+---
+title: "Tutorial2"
+format: pdf
+bibliography: references.bib
+editor: visual
+---
+
+## Set up
+```{r}
+library("janitor")
+library("knitr")
+library("lubridate")
+library("opendatatoronto")
+library("tidyverse")
+library(readr)
+Tickets_Issued <- read_csv("Tickets Issued.csv")
+
+```
+
+## Basic Cleaning of the Data
+```{r}
+cleaned_tickets_issued <-
+  clean_names(Tickets_Issued)
+head(cleaned_tickets_issued)
+```
+
+##Create graph for 
+```{r}
+##Want to look at the ticket increase of the year in Etobicoke West Mall
+  cleaned_tickets_issued |>
+  
+  filter(neighbourhood_158 == "Etobicoke West Mall",
+         offence_year %in% c(2016, 2017, 2018, 2019, 2020))|>
+  arrange(offence_year) |>
+  select(offence_year, ticket_count)|>
+  
+  summarize(sum_per_year = sum(ticket_count, na.rm = TRUE),.by = offence_year) |>
+  ggplot(mapping = aes(x = offence_year, y = sum_per_year)) + 
+  geom_bar(stat= 'identity') +
+  labs(title = "Ticket per year Etobicoke West Mall", x = "Year", y = "total ticket")
+  
+
+```
+
+\newpage
