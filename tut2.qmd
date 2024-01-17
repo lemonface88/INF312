@@ -4,6 +4,9 @@ format: pdf
 bibliography: references.bib
 editor: visual
 ---
+```{r}
+gitcreds_set()
+```
 
 ## Set up
 ```{r}
